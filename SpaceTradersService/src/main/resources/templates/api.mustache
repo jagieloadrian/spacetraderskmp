@@ -1,0 +1,11 @@
+{{#operations}}
+{{#operation}}
+{{#authMethods}}
+fun {{nickname}}({{#allParams}}{{paramName}}: {{dataType}}{{^required}}?{{/required}}, {{/allParams}}authorization: String): {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    val headers = mapOf("Authorization" to "Bearer $authorization")
+    return apiClient.invokeAPI("{{{path}}}", "{{httpMethod}}",
+        {{#allParams}}pairOf("{{paramName}}", {{paramName}}), {{/allParams}}headers, ...)
+}
+{{/authMethods}}
+{{/operation}}
+{{/operations}}

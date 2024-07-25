@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: "SpaceTradersService"
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/space_trader_db
+    username: space_trader_admin
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+
+springdoc:
+  api-docs:
+    enabled: true
+  show-actuator: true
+
+app:
+  baseUrl: "https://api.spacetraders.io/v2"

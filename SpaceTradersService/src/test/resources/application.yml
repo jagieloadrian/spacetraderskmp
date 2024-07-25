@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: "SpaceTradersService"
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+  profiles:
+    active: test
+
+app:
+  baseUrl: "default.api/"

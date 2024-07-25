@@ -1,0 +1,30 @@
+image: gradle:8.9-jdk17
+
+services:
+  - name: docker:dind
+    command: ["--tls=false"]
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
+
+before_script:
+  - GRADLE_USER_HOME="$(pwd)/.gradle"
+  - export GRADLE_USER_HOME
+
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+stages:
+  - build
+
+include:
+  - local: SpaceTradersService/.gitlab-ci.yml
+  - local: SpaceTradersUI/.gitlab-ci.yml
+
+after_script:
+  - echo "All builds runs"
