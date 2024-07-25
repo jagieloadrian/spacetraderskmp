@@ -1,0 +1,8 @@
+build_service:
+  stage: build
+  tags:
+    - saas-linux-medium-amd64
+  script:
+    - cd SpaceTradersService
+    - echo "Run build for service"
+    - ./gradlew build

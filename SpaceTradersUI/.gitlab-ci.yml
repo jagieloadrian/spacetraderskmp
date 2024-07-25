@@ -1,0 +1,8 @@
+build_ui:
+  stage: build
+  tags:
+    - saas-linux-medium-amd64
+  script:
+    - cd SpaceTradersUI
+    - echo "Run build for UI"
+    - ./gradlew build

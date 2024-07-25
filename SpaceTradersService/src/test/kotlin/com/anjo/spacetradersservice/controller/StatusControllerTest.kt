@@ -1,0 +1,83 @@
+package com.anjo.spacetradersservice.controller
+
+import com.anjo.spacetradersservice.TestcontainersConfiguration
+import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod
+import com.anjo.spacetradersservice.testutils.defaultHeader
+import com.anjo.spacetradersservice.testutils.readJson
+import com.anjo.spacetradersservice.testutils.verifyMockServerRequest
+import io.restassured.RestAssured
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
+import kotlinx.coroutines.test.runTest
+import org.hamcrest.CoreMatchers.`is`
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.mockserver.client.MockServerClient
+import org.mockserver.model.HttpRequest.request
+import org.mockserver.model.HttpResponse.response
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
+import org.testcontainers.containers.MockServerContainer
+import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.utility.DockerImageName
+import kotlin.test.Test
+
+@Testcontainers
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(TestcontainersConfiguration::class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class StatusControllerTest {
+
+    @LocalServerPort
+    val port: Int = 0
+    private lateinit var mockServerClient: MockServerClient
+
+    companion object {
+        @Container
+        val mockServerContainer = MockServerContainer(DockerImageName.parse("mockserver/mockserver:5.15.0"))
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun dataSourceProperties(registry: DynamicPropertyRegistry) {
+            registry.add("app.baseUrl") { mockServerContainer.endpoint }
+        }
+    }
+
+    @BeforeEach
+    fun setUp() {
+        RestAssured.port = port
+        mockServerClient = MockServerClient(mockServerContainer.host, mockServerContainer.serverPort)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        mockServerClient.reset()
+    }
+
+    @Test
+    fun `given mockResponse when call api getStatus then return Status`(): Unit = runTest {
+        //given
+        mockServerClient.`when`(request().withMethod(RequestMethod.GET.name).withPath("/"))
+                .respond(response().withStatusCode(200)
+                        .withHeaders(defaultHeader())
+                        .withBody(readJson("/jsonresponses/statusResponse.json")))
+
+        //when
+        given()
+                .contentType(ContentType.JSON)
+                .get("/api/status")
+                .then()
+                .statusCode(200)
+                .body("status", `is`("string"))
+
+        //then
+        mockServerClient.verifyMockServerRequest(RequestMethod.GET.name, "/", 1)
+    }
+}
