@@ -19,8 +19,7 @@ class RegisterController(private val registerService: RegisterService) {
     suspend fun register(
             @RequestBody request: RegisterRequest,
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            @RequestParam nextResetDate: LocalDateTime,
-    ): RegisterResponseData {
+            @RequestParam nextResetDate: LocalDateTime): RegisterResponseData {
         return registerService.registerNewUser(request, nextResetDate)
     }
 }

@@ -1,9 +1,8 @@
 package com.anjo.spacetradersservice.controller
 
 import com.anjo.spacetradersservice.TestcontainersConfiguration
-import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod
-import com.anjo.spacetradersservice.testutils.defaultHeader
-import com.anjo.spacetradersservice.testutils.readJson
+import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod.GET
+import com.anjo.spacetradersservice.testutils.mockExternalQuery
 import com.anjo.spacetradersservice.testutils.verifyMockServerRequest
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -13,8 +12,6 @@ import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.mockserver.client.MockServerClient
-import org.mockserver.model.HttpRequest.request
-import org.mockserver.model.HttpResponse.response
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -64,10 +61,8 @@ class StatusControllerTest {
     @Test
     fun `given mockResponse when call api getStatus then return Status`(): Unit = runTest {
         //given
-        mockServerClient.`when`(request().withMethod(RequestMethod.GET.name).withPath("/"))
-                .respond(response().withStatusCode(200)
-                        .withHeaders(defaultHeader())
-                        .withBody(readJson("/jsonresponses/statusResponse.json")))
+        val jsonPath = "/jsonresponses/statusResponse.json"
+        mockExternalQuery(mockServerClient, GET, "/", jsonPath)
 
         //when
         given()
@@ -78,6 +73,6 @@ class StatusControllerTest {
                 .body("status", `is`("string"))
 
         //then
-        mockServerClient.verifyMockServerRequest(RequestMethod.GET.name, "/", 1)
+        mockServerClient.verifyMockServerRequest(GET.name, "/", 1)
     }
 }

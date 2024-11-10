@@ -1,0 +1,23 @@
+{
+  "data": {
+    "cooldown": {
+      "shipSymbol": "string",
+      "totalSeconds": 0,
+      "remainingSeconds": 0,
+      "expiration": "2019-08-24T14:15:22Z"
+    },
+    "surveys": [
+      {
+        "signature": "string",
+        "symbol": "string",
+        "deposits": [
+          {
+            "symbol": "string"
+          }
+        ],
+        "expiration": "2019-08-24T14:15:22Z",
+        "size": "SMALL"
+      }
+    ]
+  }
+}

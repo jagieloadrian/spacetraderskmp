@@ -26,10 +26,10 @@ data class SpaceTraderUser(
         val isActive: Boolean,
 )
 
-fun RegisterResponseData.mapToUser(resetDate: LocalDateTime): SpaceTraderUser {
+fun RegisterResponseData.mapToUser(resetDate: LocalDateTime, userEmail: String?): SpaceTraderUser {
     return SpaceTraderUser(
             name = this.agent.symbol,
-            email = "",
+            email = userEmail ?: "",
             token = token,
             resetDate = resetDate,
             isActive = resetDate.isAfter(LocalDateTime.now())

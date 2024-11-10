@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.9.24"
-    kotlin("plugin.jpa") version "1.9.24"
-    kotlin("plugin.spring") version "1.9.24"
-    id("org.springframework.boot") version "3.3.1"
-    id("io.spring.dependency-management") version "1.1.5"
+    kotlin("jvm") version "2.0.21"
+    kotlin("plugin.jpa") version "2.0.21"
+    kotlin("plugin.spring") version "2.0.21"
+    id("org.springframework.boot") version "3.3.5"
+    id("io.spring.dependency-management") version "1.1.6"
     id("org.springdoc.openapi-gradle-plugin") version "1.9.0"
-    id("org.openapi.generator") version "7.7.0"
+    id("org.openapi.generator") version "7.9.0"
 }
 
 group = "com.anjo"
@@ -33,8 +33,9 @@ dependencies {
 
     //kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.1")
 
+    implementation("com.google.code.gson:gson:2.11.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
@@ -98,4 +99,9 @@ openApiGenerate {
                     "reactive" to "true"
             )
     )
+}
+
+openApi {
+    apiDocsUrl.set("http://localhost:8080/v3/api-docs.yaml")
+    outputFileName.set("openapi.yaml")
 }

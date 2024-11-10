@@ -1,0 +1,27 @@
+{
+  "data": {
+    "construction": {
+      "symbol": "string",
+      "materials": [
+        {
+          "tradeSymbol": "PRECIOUS_STONES",
+          "required": 0,
+          "fulfilled": 0
+        }
+      ],
+      "isComplete": true
+    },
+    "cargo": {
+      "capacity": 0,
+      "units": 0,
+      "inventory": [
+        {
+          "symbol": "PRECIOUS_STONES",
+          "name": "string",
+          "description": "string",
+          "units": 1
+        }
+      ]
+    }
+  }
+}

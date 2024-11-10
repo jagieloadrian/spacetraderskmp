@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "symbol": "string",
+      "sectorSymbol": "string",
+      "type": "NEUTRON_STAR",
+      "x": 0,
+      "y": 0,
+      "waypoints": [
+        {
+          "symbol": "string",
+          "type": "PLANET",
+          "x": 0,
+          "y": 0,
+          "orbitals": [
+            {
+              "symbol": "string"
+            }
+          ],
+          "orbits": "string"
+        }
+      ],
+      "factions": [
+        {
+          "symbol": "COSMIC"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "total": 0,
+    "page": 1,
+    "limit": 10
+  }
+}

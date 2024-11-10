@@ -1,6 +1,6 @@
 package com.anjo.spacetradersservice.service
 
-import com.anjo.spacetradersservice.excpetion.NotFoundTokenException
+import com.anjo.spacetradersservice.exception.NotFoundTokenException
 import com.anjo.spacetradersservice.repository.SpaceTraderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

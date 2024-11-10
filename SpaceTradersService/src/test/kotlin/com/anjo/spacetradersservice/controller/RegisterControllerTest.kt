@@ -1,13 +1,12 @@
 package com.anjo.spacetradersservice.controller
 
 import com.anjo.spacetradersservice.TestcontainersConfiguration
-import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod
+import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod.POST
 import com.anjo.spacetradersservice.generated.models.FactionSymbol
 import com.anjo.spacetradersservice.generated.models.RegisterRequest
 import com.anjo.spacetradersservice.repository.SpaceTraderRepository
 import com.anjo.spacetradersservice.testutils.Mapper
-import com.anjo.spacetradersservice.testutils.defaultHeader
-import com.anjo.spacetradersservice.testutils.readJson
+import com.anjo.spacetradersservice.testutils.mockExternalQuery
 import com.anjo.spacetradersservice.testutils.verifyMockServerRequest
 import io.kotest.matchers.collections.shouldHaveSize
 import io.restassured.RestAssured
@@ -18,8 +17,6 @@ import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.mockserver.client.MockServerClient
-import org.mockserver.model.HttpRequest.request
-import org.mockserver.model.HttpResponse.response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
@@ -77,11 +74,7 @@ class RegisterControllerTest {
         val requestBody = RegisterRequest(faction = FactionSymbol.CULT, "symbol", "email@example.com")
         val jsonRequestBody = Mapper.writeAsString(requestBody)
 
-        mockServerClient.`when`(request().withMethod(RequestMethod.POST.name).withPath(path)
-                .withBody(jsonRequestBody))
-                .respond(response().withStatusCode(200)
-                        .withHeaders(defaultHeader())
-                        .withBody(readJson("/jsonresponses/registerResponse.json")))
+        mockExternalQuery(mockServerClient, POST, path, "/jsonresponses/registerResponse.json")
 
         //when
         given()
@@ -94,7 +87,7 @@ class RegisterControllerTest {
                 .body("token", `is`("string"))
 
         //then
-        mockServerClient.verifyMockServerRequest(RequestMethod.POST.name, path, 1)
+        mockServerClient.verifyMockServerRequest(POST.name, path, 1)
         spaceTraderRepository.findAll() shouldHaveSize 1
     }
 
@@ -117,7 +110,7 @@ class RegisterControllerTest {
 
         //then
 
-        mockServerClient.verifyMockServerRequest(RequestMethod.POST.name, path, 0)
+        mockServerClient.verifyMockServerRequest(POST.name, path, 0)
         spaceTraderRepository.findAll() shouldHaveSize 0
     }
 }

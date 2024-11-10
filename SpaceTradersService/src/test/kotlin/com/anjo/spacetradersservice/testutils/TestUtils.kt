@@ -1,8 +1,10 @@
 package com.anjo.spacetradersservice.testutils
 
+import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod
 import org.mockserver.client.MockServerClient
 import org.mockserver.model.Header
 import org.mockserver.model.HttpRequest.request
+import org.mockserver.model.HttpResponse.response
 import org.mockserver.verify.VerificationTimes
 import org.springframework.core.io.ClassPathResource
 
@@ -19,4 +21,29 @@ fun MockServerClient.verifyMockServerRequest(method: String, path: String, times
             request().withMethod(method).withPath(path),
             VerificationTimes.exactly(times)
     )
+}
+
+fun mockExternalQueryWithAuth(mockServerClient: MockServerClient , token: String, requestMethod: RequestMethod, path: String, jsonPath: String) {
+    mockServerClient.`when`(
+            request()
+                    .withHeader("Authorization", "Bearer $token")
+                    .withMethod(requestMethod.name)
+                    .withPath(path))
+            .respond(response()
+                    .withStatusCode(200)
+                    .withHeaders(defaultHeader())
+                    .withBody(readJson(jsonPath)))
+
+}
+
+fun mockExternalQuery(mockServerClient: MockServerClient , requestMethod: RequestMethod, path: String, jsonPath: String) {
+    mockServerClient.`when`(
+            request()
+                    .withMethod(requestMethod.name)
+                    .withPath(path))
+            .respond(response()
+                    .withStatusCode(200)
+                    .withHeaders(defaultHeader())
+                    .withBody(readJson(jsonPath)))
+
 }

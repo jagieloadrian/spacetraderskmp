@@ -1,0 +1,33 @@
+{
+  "data": {
+    "contract": {
+      "id": "string",
+      "factionSymbol": "string",
+      "type": "PROCUREMENT",
+      "terms": {
+        "deadline": "2019-08-24T14:15:22Z",
+        "payment": {
+          "onAccepted": 0,
+          "onFulfilled": 0
+        },
+        "deliver": null
+      },
+      "accepted": false,
+      "fulfilled": false,
+      "expiration": "2019-08-24T14:15:22Z",
+      "deadlineToAccept": "2019-08-24T14:15:22Z"
+    },
+    "cargo": {
+      "capacity": 0,
+      "units": 0,
+      "inventory": [
+        {
+          "symbol": "PRECIOUS_STONES",
+          "name": "string",
+          "description": "string",
+          "units": 1
+        }
+      ]
+    }
+  }
+}
