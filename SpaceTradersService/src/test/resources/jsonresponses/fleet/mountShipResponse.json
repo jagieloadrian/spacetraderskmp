@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "symbol": "MOUNT_GAS_SIPHON_I",
+      "name": "string",
+      "description": "string",
+      "strength": 0,
+      "deposits": [
+        "QUARTZ_SAND"
+      ],
+      "requirements": {
+        "power": 0,
+        "crew": 0,
+        "slots": 0
+      }
+    }
+  ]
+}

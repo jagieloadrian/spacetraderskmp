@@ -1,9 +1,9 @@
 package com.anjo.spacetradersservice.controller
 
 import com.anjo.spacetradersservice.TestcontainersConfiguration
-import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod
-import com.anjo.spacetradersservice.testutils.defaultHeader
-import com.anjo.spacetradersservice.testutils.readJson
+import com.anjo.spacetradersservice.generated.infrastructure.RequestMethod.GET
+import com.anjo.spacetradersservice.testutils.mockExternalQuery
+import com.anjo.spacetradersservice.testutils.mockExternalQueryWithAuth
 import com.anjo.spacetradersservice.testutils.verifyMockServerRequest
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
@@ -13,8 +13,6 @@ import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.mockserver.client.MockServerClient
-import org.mockserver.model.HttpRequest.request
-import org.mockserver.model.HttpResponse.response
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -64,10 +62,10 @@ class AgentsControllerTest {
     @Test
     fun `given mockAgent when ask about specific agent then return response`() {
         //given
-        mockServerClient.`when`(request().withMethod(RequestMethod.GET.name).withPath("/agents/string"))
-                .respond(response().withStatusCode(200)
-                        .withHeaders(defaultHeader())
-                        .withBody(readJson("/jsonresponses/agentResponse.json")))
+        val path = "/agents/string"
+        val jsonPath = "/jsonresponses/agentResponse.json"
+
+        mockExternalQuery(mockServerClient, GET, path, jsonPath)
 
         //when
         given()
@@ -78,21 +76,17 @@ class AgentsControllerTest {
                 .body("symbol", `is`("string"))
 
         //then
-        mockServerClient.verifyMockServerRequest(RequestMethod.GET.name, "/agents/string", 1)
+        mockServerClient.verifyMockServerRequest(GET.name, "/agents/string", 1)
     }
 
     @Test
     fun `given mockAgent when ask about myAgent then return response`() {
         //given
         val token = UUID.randomUUID().toString()
+        val path = "/my/agent"
+        val jsonPath = "/jsonresponses/agentResponse.json"
 
-        mockServerClient.`when`(request()
-                .withHeader("Authorization", "Bearer $token")
-                .withMethod(RequestMethod.GET.name)
-                .withPath("/my/agent"))
-                .respond(response().withStatusCode(200)
-                        .withHeaders(defaultHeader())
-                        .withBody(readJson("/jsonresponses/agentResponse.json")))
+        mockExternalQueryWithAuth(mockServerClient, token, GET, path, jsonPath)
 
         //when
         given()
@@ -104,18 +98,16 @@ class AgentsControllerTest {
                 .body("symbol", `is`("string"))
 
         //then
-        mockServerClient.verifyMockServerRequest(RequestMethod.GET.name, "/my/agent", 1)
+        mockServerClient.verifyMockServerRequest(GET.name, "/my/agent", 1)
     }
 
     @Test
     fun `given mockAgents when ask about agents then return response`() {
         //given
-        mockServerClient.`when`(request()
-                .withMethod(RequestMethod.GET.name)
-                .withPath("/agents"))
-                .respond(response().withStatusCode(200)
-                        .withHeaders(defaultHeader())
-                        .withBody(readJson("/jsonresponses/agentsResponse.json")))
+        val path = "/agents"
+        val jsonPath = "/jsonresponses/agentsResponse.json"
+
+        mockExternalQuery(mockServerClient, GET, path, jsonPath)
 
         //when
         given()
@@ -127,7 +119,7 @@ class AgentsControllerTest {
                 .body("meta", notNullValue())
 
         //then
-        mockServerClient.verifyMockServerRequest(RequestMethod.GET.name, "/agents", 1)
+        mockServerClient.verifyMockServerRequest(GET.name, "/agents", 1)
     }
 
     @Test
@@ -141,6 +133,6 @@ class AgentsControllerTest {
                 .body("errorMessage", notNullValue())
 
         //then
-        mockServerClient.verifyMockServerRequest(RequestMethod.GET.name, "/agents", 1)
+        mockServerClient.verifyMockServerRequest(GET.name, "/agents", 1)
     }
 }

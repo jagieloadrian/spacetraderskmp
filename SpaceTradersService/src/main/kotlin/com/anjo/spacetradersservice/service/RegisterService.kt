@@ -1,6 +1,6 @@
 package com.anjo.spacetradersservice.service
 
-import com.anjo.spacetradersservice.excpetion.NonSpaceTraderValidException
+import com.anjo.spacetradersservice.exception.NonSpaceTraderValidException
 import com.anjo.spacetradersservice.generated.apis.DefaultApi
 import com.anjo.spacetradersservice.generated.models.RegisterRequest
 import com.anjo.spacetradersservice.generated.models.RegisterResponseData
@@ -24,7 +24,7 @@ class RegisterService(
                     .awaitSingle()
                     .data) {
                 return this.also {
-                    it.mapToUser(nextResetDate).also { user ->
+                    it.mapToUser(nextResetDate, request.email).also { user ->
                         repository.save(user)
                     }
                 }

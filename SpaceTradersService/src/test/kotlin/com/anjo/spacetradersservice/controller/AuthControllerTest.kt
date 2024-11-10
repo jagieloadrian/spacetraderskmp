@@ -83,7 +83,6 @@ class AuthControllerTest {
     @Test
     fun `given a mocked user when ask about not existing token by name then return 404 not found`() {
         //given
-
         val expMessage = "Token for user with userName: NonExist not found"
 
         //when and then
@@ -102,7 +101,6 @@ class AuthControllerTest {
     @Test
     fun `given a mocked user when ask about not existing token by email then return 404 not found`() {
         //given
-
         val expMessage = "Token for user with email: NonExist@example.com not found"
 
         //when and then

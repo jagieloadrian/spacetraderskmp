@@ -2721,13 +2721,6 @@ paths:
           type: string
   /systems/{systemSymbol}/waypoints/{waypointSymbol}/construction:
     get:
-      parameters:
-        - name: Authorization
-          in: header
-          required: true
-          schema:
-            type: string
-          description: Bearer token
       description: >-
         Get construction details for a waypoint. Requires a waypoint with a
         property of `isUnderConstruction` to be true.
@@ -3191,13 +3184,14 @@ paths:
                 properties:
                   data:
                     properties:
+                      agent:
+                        $ref: '#/components/schemas/Agent'
                       contract:
                         $ref: '#/components/schemas/Contract'
                       cargo:
                         $ref: '#/components/schemas/ShipCargo'
                     required:
                       - contract
-                      - cargo
                     type: object
                 required:
                   - data
@@ -3247,9 +3241,10 @@ paths:
                         $ref: '#/components/schemas/Agent'
                       contract:
                         $ref: '#/components/schemas/Contract'
+                      cargo:
+                        $ref: '#/components/schemas/ShipCargo'
                     required:
                       - contract
-                      - agent
                     type: object
                 required:
                   - data
@@ -3340,6 +3335,7 @@ paths:
           content:
             application/json:
               schema:
+                title: "ShipPurchaseResponse"
                 description: ''
                 properties:
                   data:

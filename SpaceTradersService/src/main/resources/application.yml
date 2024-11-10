@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: default
   application:
     name: "SpaceTradersService"
   datasource:
@@ -15,7 +17,7 @@ spring:
 springdoc:
   api-docs:
     enabled: true
-  show-actuator: true
+  show-actuator: false
 
 app:
   baseUrl: "https://api.spacetraders.io/v2"

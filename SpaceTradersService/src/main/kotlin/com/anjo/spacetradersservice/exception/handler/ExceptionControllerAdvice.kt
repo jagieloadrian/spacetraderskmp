@@ -1,7 +1,8 @@
-package com.anjo.spacetradersservice.excpetion.handler
+package com.anjo.spacetradersservice.exception.handler
 
-import com.anjo.spacetradersservice.excpetion.NonSpaceTraderValidException
-import com.anjo.spacetradersservice.excpetion.NotFoundTokenException
+import com.anjo.spacetradersservice.exception.NonSpaceTraderValidException
+import com.anjo.spacetradersservice.exception.NonValidActionException
+import com.anjo.spacetradersservice.exception.NotFoundTokenException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -13,6 +14,12 @@ class ExceptionControllerAdvice {
 
     @ExceptionHandler(NonSpaceTraderValidException::class)
     suspend fun handleNonValidException(nonValidExc: NonSpaceTraderValidException): ResponseEntity<ErrorMessageModel> {
+        val errorResponse = ErrorMessageModel(nonValidExc.message ?: "", HttpStatus.BAD_REQUEST.value())
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(NonValidActionException::class)
+    suspend fun handleNonValidActionException(nonValidExc: NonValidActionException): ResponseEntity<ErrorMessageModel> {
         val errorResponse = ErrorMessageModel(nonValidExc.message ?: "", HttpStatus.BAD_REQUEST.value())
         return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }

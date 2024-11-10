@@ -1,0 +1,34 @@
+{
+  "data": {
+    "cargo": {
+      "capacity": 0,
+      "units": 0,
+      "inventory": [
+        {
+          "symbol": "PRECIOUS_STONES",
+          "name": "string",
+          "description": "string",
+          "units": 1
+        }
+      ]
+    },
+    "cooldown": {
+      "shipSymbol": "string",
+      "totalSeconds": 0,
+      "remainingSeconds": 0,
+      "expiration": "2019-08-24T14:15:22Z"
+    },
+    "produced": [
+      {
+        "tradeSymbol": "string",
+        "units": 0
+      }
+    ],
+    "consumed": [
+      {
+        "tradeSymbol": "string",
+        "units": 0
+      }
+    ]
+  }
+}
