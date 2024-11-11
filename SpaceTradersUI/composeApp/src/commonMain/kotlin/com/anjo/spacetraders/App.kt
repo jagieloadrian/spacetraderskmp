@@ -30,7 +30,7 @@ fun App() {
 
         LaunchedEffect(showContent) {
             if (showContent) {
-//                delay(1000)
+                delay(1000)
                 showScreen = showContent
             } else {
                 showScreen = showContent
