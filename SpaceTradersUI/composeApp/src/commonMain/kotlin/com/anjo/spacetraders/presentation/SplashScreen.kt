@@ -57,8 +57,8 @@ fun SplashScreen(runAnimation: Boolean) {
     Box(modifier = Modifier.fillMaxSize().background(Color.Black),
             contentAlignment = Alignment.Center) {
         AnimatedVisibility(runAnimation,
-                enter = scaleIn(animationSpec = tween(1500, 5000)),
-                exit = scaleOut(tween(1500, 5000))) {
+                enter = scaleIn(animationSpec = tween(1500, 8500)),
+                exit = scaleOut(tween(1500, 8500))) {
             Image(painterResource(Res.drawable.spaceship), null,
                     contentScale = ContentScale.Inside,
                     colorFilter = ColorFilter.tint(Color.LightGray))
